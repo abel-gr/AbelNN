@@ -9,11 +9,11 @@ List of number of neurons of each hidden layers. The ith element will be the num
 
     Example:
     
-    ```python
-    hiddenLayers = [2, 4, 8]
+```python
+hiddenLayers = [2, 4, 8]
 
-    clf = MLP_Abel(hidden=hiddenLayers)
-    ```
+clf = MLP_Abel(hidden=hiddenLayers)
+```
     
     
     The above example instances a MLP with 3 hidden layers of 2, 4 and 8 neurons each.
@@ -22,8 +22,10 @@ List of number of neurons of each hidden layers. The ith element will be the num
 * **nEpochs**: _(Type int, default = 1)_ 
 Number of times that the MLP will use all training data to perform the training.
 
+
 * **learningRate**: _(Type float, default = 0.1)_
 Learning rate value that controls the size of the steps when updating the weights.
+
 
 * **manualWeights**: _(Type list of lists of floats, default = [])_
 If it is not empty, it defines the weights of each neuron. If it is empty, all weights will be generated automatically (this is what would be usual).
@@ -32,59 +34,71 @@ If it is not empty, it defines the weights of each neuron. If it is empty, all w
     
     In this example we will start from data of 2 dimensions so first layer size is 2. We decide to have 1 hidden layer with 2 neurons in the _hiddenLayers_ parameter. And the output size is 1 (also determined by data). So manualWeights is a list of 2 lists. The first sub-list contains the weights corresponding to the input of the hidden layer, and the second sub-list contains the weights corresponding to the input of the last layer.
     
-    ```python
-    hiddenLayers = [2] # 1 hidden layer with 2 neurons
-    manualWeights = [[0.9,0.5,0.7,-0.7], [0.5, 0.2]]
+```python
+hiddenLayers = [2] # 1 hidden layer with 2 neurons
+manualWeights = [[0.9,0.5,0.7,-0.7], [0.5, 0.2]]
 
-    clf = MLP_Abel(hidden=hiddenLayers, manualWeights=manualWeights)
-    ```
-    
+clf = MLP_Abel(hidden=hiddenLayers, manualWeights=manualWeights)
+```
+
 
 * **debugLevel**: _(Type int, default = 1)_ Depending on the level of debugging, certain learning related values are stored in class instance variables to be able to later show plots with information about the learning. Each level allows all the actions of lower levels than itself. Higher levels correspond to bigger numbers.
 
-    | debugLevel    | Debug action performed |
-    | :-----------: |:----------------------:| 
-    | 0             | Debug mode disabled    | 
-    | 1             | The last layer mean error of each epoch is <br> calculated and stored in a list.| 
-    | 2             | The value of all the weights after each epoch is saved.               |   
-    | 3             | All output layer neurons errors <br> are saved for each input value and for each epoch. |
+| debugLevel    | Debug action performed |
+| :-----------: |:----------------------:| 
+| 0             | Debug mode disabled    | 
+| 1             | The last layer mean error of each epoch is <br> calculated and stored in a list.| 
+| 2             | The value of all the weights after each epoch is saved.               |   
+| 3             | All output layer neurons errors <br> are saved for each input value and for each epoch. |
 
 
 * **rangeRandomWeight**:  _(Type tuple of floats, default = None)_
 Range of values between which the weights will be randomly initialized. If None, Xavier initialization will be used if activation function is _sigmoid_ and He initialization will be used otherwise.
 
+
 * **showLogs**: _(Type bool, default = False)_ 
 Toggles the display of the network logs, which include information on weight modifications, errors, net outputs and much more.
+
 
 * **softmax**: _(Type bool, default = False)_ 
 If True, the network applies softmax before returning the prediction value.
 
+
 * **activationFunction** _(Type string, default = 'sigmoid')_ 
 Activation function to be used in the neural network. Allowed values: 'sigmoid', 'relu', 'softplus', 'leakyrelu' and 'identity'.
+
 
 * **verbose** _(Type bool, default = False)_
 If True, when the _fit_ method is called, information about the number of training samples will be printed, and at the end of each epoch the finished epoch number and its loss will also be printed.
 
+
 * **use** _(Type string, default = 'classification')_
 Indicates whether the neural network should perform classification or regression, to automatically make internal modifications that allow it to perform this task, such as changing the activation function of the output layer, for example. Allowed values: 'classification' and 'regression'.
+
 
 * **batch_size** _(Type int, default = 1)_
 Batch size to be used.
 
+
 * **batch_gradient** _(Type string, default = 'average')_
 Use of the gradient calculated between the data of a batch. Allowed values: 'average' and 'sum'.
+
 
 * **batch_mult** _(Type int, default = 1)_
 After each epoch, _batch_size_ will be multiplied by the value of _batch_mul_.
 
+
 * **dropout** _(Type float, default = 0)_
 Probability of a neuron to be deactivated in each hidden layer.
+
 
 * **pre_norm** _(Type bool, default = False)_
 If it is equal to True, it will normalize the input to the activation function of all hidden layers.
 
+
 * **shuffle** _(Type bool, default = True)_
 If True, the training dataset indices will be shuffled at each epoch, for random access.
+
 
 * **iterationDrop** _(Type float, default = 0)_
 Probability of a iteration to be skipped in each epoch. That means there will be (1-_iterationDrop_) times fewer iterations in each epoch. For example, if the batch size is 10 and there are 1000 training samples, with _iterationDrop_=0, 100 iterations will be performed per epoch, but with _iterationDrop_=0.4, (1-0.4) * 100 iterations = 60 iterations will be performed. Combined with data shuffling at each epoch, and a sufficient number of epochs, all training data will continue to be used during training, while reducing overall run time.
@@ -284,63 +298,86 @@ clf.importModel(mpath, mfilename) # The variables will be loaded from the file.
 
 ## Internal attributes:
 
-The following are internal attributes of the class, which do not need to be used by a user making conventional use of my network. However they can be used as well.
+The following are internal attributes of the class, which do not need to be used by a user making conventional use of my network. However, they can be used as well.
 
 * **hiddenL**: _(Type list of ints)_ List of number of neurons of each hidden layers. The ith element will be the number of neurons in the ith hidden layer.
         
+        
 * **learningRate**: _(Type float)_ Learning rate value that controls the size of the steps when updating the weights.
+        
         
 * **numEpochs**: _(Type int)_ Number of times that the MLP will use all training data to perform the training.
         
+        
 * **hiddenWeights**: _(Type List of Numpy arrays)_ The ith element of the list is an array with the weights of the ith layer.
         
+        
 * **debugMode**: _(Type int)_ Contains the value of the debug level (see constructor info).
+        
         
 * **rangeRandomWeight**: _(Type tuple of floats)_
 Range of values between which the weights will be randomly initialized. If None, Xavier initialization will be used if activation function is _sigmoid_ and He initialization will be used otherwise.
         
+        
 * **showLogs**: _(Type bool)_ Toggles the display of the network logs, which include information on weight modifications, errors, net outputs and much more.
+        
         
 * **softmax**: _(Type bool)_ If True, the network applies softmax before returning the prediction value.
         
+        
 * **n_layer0**: _(Type int)_ Contains the number of neurons in the input layer.
+
 
 * **activationFunction** _(Type string)_ 
 Activation function to be used in the neural network. Allowed values: 'sigmoid', 'relu', 'softplus', 'leakyrelu' and 'identity'.
 
+
 * **lastLayerNeurons**: _(Type int)_ Contains the number of neurons in the output layer.
+
 
 * **meanCostByEpoch**: _(Type list of Numpy arrays)_ It contains all the last layer neurons mean errors for each epoch. If the debug level is less than 1, the variable will be an empty list.
 
+
 * **debugWeights**: _(Type list of lists of Numpy arrays)_ It contains the value of all the weights after each epoch. If the debug level is less than 2, the variable will be an empty list.
+
 
 * **costs**: _(Type list of floats)_ List of all output layer neurons errors for each input value and for each epoch. If the debug level is less than 3, the variable will be an empty list.
 
+
 * **manualWeights**: _(Type list of lists of floats)_ If they have been specified, it contains the weights that the user wants to manually set. If it is empty, the weights have been randomly initialized. The value of this variable is only used once in network initialization.
+
 
 * **verbose** _(Type bool)_
 If True, when the _fit_ method is called, information about the number of training samples will be printed, and at the end of each epoch the finished epoch number and its loss will also be printed.
 
+
 * **use** _(Type string)_
 Indicates whether the neural network should perform classification or regression, to automatically make internal modifications that allow it to perform this task, such as changing the activation function of the output layer, for example. Allowed values: 'classification' and 'regression'.
+
 
 * **batch_size** _(Type int)_
 Batch size to be used.
 
+
 * **batch_gradient** _(Type string)_
 Use of the gradient calculated between the data of a batch. Allowed values: 'average' and 'sum'.
+
 
 * **batch_mult** _(Type int)_
 After each epoch, _batch_size_ will be multiplied by the value of _batch_mul_.
 
+
 * **dropout** _(Type float)_
 Probability of a neuron to be deactivated in each hidden layer.
+
 
 * **pre_norm** _(Type bool)_
 If it is equal to True, it will normalize the input to the activation function of all hidden layers.
 
+
 * **shuffle** _(Type bool)_
 If True, the training dataset indices will be shuffled at each epoch, for random access.
+
 
 * **iterationDrop** _(Type float)_
 Probability of a iteration to be skipped in each epoch. That means there will be (1-_iterationDrop_) times fewer iterations in each epoch. For example, if the batch size is 10 and there are 1000 training samples, with _iterationDrop_=0, 100 iterations will be performed per epoch, but with _iterationDrop_=0.4, (1-0.4) * 100 iterations = 60 iterations will be performed. Combined with data shuffling at each epoch, and a sufficient number of epochs, all training data will continue to be used during training, while reducing overall run time.
@@ -348,7 +385,7 @@ Probability of a iteration to be skipped in each epoch. That means there will be
 
 ## Internal methods:
 
-The following are internal methods of the class, which do not need to be used by a user making conventional use of my network. However they can be used as well.
+The following are internal methods of the class, which do not need to be used by a user making conventional use of my network. However, they can be used as well.
 
 ### initializeWeight
 
