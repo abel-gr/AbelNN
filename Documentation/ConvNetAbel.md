@@ -7,23 +7,26 @@ Convolutional Neural Network made by Abel Garcia.
 * **convFilters**: _(Type list of ints, default = [32, 64, 128])_
 List of number of filters of each convolutional layer. The ith element will be the number of kernels in the ith convolutional layer.
 
+
 * **convStride**: _(Type int or list of ints, default = 2)_
 If _convStride_ is an int, it is the stride that will be used in all convolutional layers. For example, if the value is 2, the stride will be 2 in all convolutional layers. If _convStride_ is a list, it contains the strides that will be used in each convolutional layer. The ith element will be the stride of the ith convolutional layer. For example, if the value of _convStride_ is the list [1,2,4], the first convolutional layer will have a stride of 1, the second a stride of 2, and the third a stride equal to 4. If _convStride_ is a list, it must be the same size as the list passed to the _convFilters_ parameter.
+
 
 * **convFilterSizes**: _(Type int or list of ints, default = 3)_
 If _convFilterSizes_ is an int, it is the size of kernels dimensions that will be used in all convolutional layers. For example, if the value is 5 and it is detected that the input images are in grayscale, the kernels size will be 5x5, but if three-dimensional kernels are required (color images as input), all kernels of the first layer will automatically be 5x5xN where N is the number of elements in the third dimension of the input images (3 if RGB, but can be any number) and all the kernels of the rest of the layers will be 5x5 since color is only in the first layer. If _convFilterSizes_ is a list, it will contain the size of kernels dimensions that will be used in each convolutional layer. The ith element will be the size of kernels dimensions of the ith convolutional layer. For example, if the value is the list [7,5,3] and it is detected that input images are in grayscale, automatically all kernels of the first convolutional layer will be 7x7. If input images are in RGB, all kernels of the first layer will be of shape 7x7x3, kernels of the second 5x5 (color is only in the first layer) and kernels of the third 3x3. If _convFilterSizes_ is a list, it must be the same size as the list passed to the _convFilters_ parameter.
 
     **Example:**
     
-    ```python
-    clf = ConvNetAbel(convFilters=[16, 32, 64], 
-                      convStride=[4,2,1], 
-                      convFilterSizes=[7,5,3],
-                      hidden = [10, 5])
-    ```
+```python
+clf = ConvNetAbel(convFilters=[16, 32, 64], 
+                  convStride=[4,2,1], 
+                  convFilterSizes=[7,5,3],
+                  hidden = [10, 5])
+```
     
     
     The example above instantiates a convolutional neural network with 3 convolutional layers and 2 fully connected hidden layers. The first convolutional layer has 16 filters, a stride of 4 and a kernel of 7x7 if it detects that input images are in grayscale, or 7x7x3 if it detects that are color images. The second convolutional layer has 32 filters with a stride of 2 and a kernel of 5x5. The third convolutional layer has 64 filters with a stride of 1 and a kernel of 3x3. After the convolutional layers it has a first fully connected hidden layer of 10 neurons and then another of 5 neurons. Finally, it has an output layer but its number of neurons will depend on the number of classes, an amount that will be known when using the fit method.
+
 
 * **kernel_initializer** _(Type string, default = 'he_normal')_
 Method that will be used to initialize the values of the filters of the convolutional layers. Allowed values: 
@@ -37,16 +40,17 @@ Method that will be used to initialize the values of the filters of the convolut
 
     Where n is the size of the input to that convolutional layer and m is the size of the output of that convolutional layer.
 
+
 * **hidden**: _(Type list of ints, default = [1])_
 List of number of neurons of each hidden layers. The ith element will be the number of neurons in the ith hidden layer.
 
     Example:
     
-    ```python
-    hiddenLayers = [2, 4, 8]
+```python
+hiddenLayers = [2, 4, 8]
 
-    clf = ConvNetAbel(hidden=hiddenLayers)
-    ```
+clf = ConvNetAbel(hidden=hiddenLayers)
+```
     
     
     The example above instances a ConvNetAbel with 3 hidden layers of 2, 4 and 8 neurons each.
@@ -55,14 +59,18 @@ List of number of neurons of each hidden layers. The ith element will be the num
 * **nEpochs**: _(Type int, default = 1)_ 
 Number of times that the neural network will use all training data to perform the training.
 
+
 * **convEpochs**: _(Type int, default = 10)_
 Number of epochs in which the backpropagation will also take place in the convolutional layers. This value must be less than or equal to _nEpochs_ for this to take effect, otherwise backpropagation will also be performed in the convolutional layers during all epochs. Backpropagation is performed always in all epochs in fully connected layers.
+
 
 * **learningRate**: _(Type float, default = 0.1)_
 Learning rate value that controls the size of the steps when updating the weights of the fully connected layers.
 
+
 * **learningRateConv** _(Type float, default = 0.001)_
 Learning rate value that controls the size of the steps when updating the values of the convolutional layer filters.
+
 
 * **manualWeights**: _(Type list of lists of floats, default = [])_
 If it is not empty, it defines the weights of each neuron. If it is empty, all weights will be generated automatically (this is what would be usual).
@@ -71,59 +79,71 @@ If it is not empty, it defines the weights of each neuron. If it is empty, all w
     
     In this example we will start from data of 2 dimensions so first layer size is 2. We decide to have 1 hidden layer with 2 neurons in the _hiddenLayers_ parameter. And the output size is 1 (also determined by data). So manualWeights is a list of 2 lists. The first sub-list contains the weights corresponding to the input of the hidden layer, and the second sub-list contains the weights corresponding to the input of the last layer.
     
-    ```python
-    hiddenLayers = [2] # 1 hidden layer with 2 neurons
-    manualWeights = [[0.9,0.5,0.7,-0.7], [0.5, 0.2]]
+```python
+hiddenLayers = [2] # 1 hidden layer with 2 neurons
+manualWeights = [[0.9,0.5,0.7,-0.7], [0.5, 0.2]]
 
-    clf = ConvNetAbel(hidden=hiddenLayers, manualWeights=manualWeights)
-    ```
+clf = ConvNetAbel(hidden=hiddenLayers, manualWeights=manualWeights)
+```
     
 
 * **debugLevel**: _(Type int, default = 1)_ Depending on the level of debugging, certain learning related values are stored in class instance variables to be able to later show plots with information about the learning. Each level allows all the actions of lower levels than itself. Higher levels correspond to bigger numbers.
 
-    | debugLevel    | Debug action performed |
-    | :-----------: |:----------------------:| 
-    | 0             | Debug mode disabled    | 
-    | 1             | The last layer mean error of each epoch is <br> calculated and stored in a list.| 
-    | 2             | The value of all the weights after each epoch is saved.               |   
-    | 3             | All output layer neurons errors <br> are saved for each input value and for each epoch. |
+| debugLevel    | Debug action performed |
+| :-----------: |:----------------------:| 
+| 0             | Debug mode disabled    | 
+| 1             | The last layer mean error of each epoch is <br> calculated and stored in a list.| 
+| 2             | The value of all the weights after each epoch is saved.               |   
+| 3             | All output layer neurons errors <br> are saved for each input value and for each epoch. |
 
 
 * **rangeRandomWeight**:  _(Type tuple of floats, default = None)_
 Range of values between which the weights will be randomly initialized. If None, Xavier initialization will be used if activation function is _sigmoid_ and He initialization will be used otherwise.
 
+
 * **showLogs**: _(Type bool, default = False)_ 
 Toggles the display of the network logs, which include information on weight modifications, errors, net outputs and much more.
+
 
 * **softmax**: _(Type bool, default = False)_ 
 If True, the network applies softmax before returning the prediction value.
 
+
 * **activationFunction** _(Type string, default = 'leakyrelu')_ 
 Activation function to be used in the fully connected layers of the neural network. Allowed values: 'sigmoid', 'relu', 'softplus', 'leakyrelu' and 'identity'.
+
 
 * **verbose** _(Type bool, default = False)_
 If True, when the _fit_ method is called, information about the number of training samples will be printed, and at the end of each epoch the finished epoch number and its loss will also be printed.
 
+
 * **use** _(Type string, default = 'classification')_
 Indicates whether the neural network should perform classification or regression, to automatically make internal modifications that allow it to perform this task, such as changing the activation function of the output layer, for example. Allowed values: 'classification' and 'regression'.
+
 
 * **batch_size** _(Type int, default = 1)_
 Batch size to be used.
 
+
 * **batch_gradient** _(Type string, default = 'average')_
 Use of the gradient calculated between the data of a batch. Allowed values: 'average' and 'sum'.
+
 
 * **batch_mult** _(Type int, default = 1)_
 After each epoch, _batch_size_ will be multiplied by the value of _batch_mul_.
 
+
 * **dropout** _(Type float, default = 0)_
 Probability of a neuron to be deactivated in each hidden layer.
+
 
 * **pre_norm** _(Type bool, default = False)_
 If it is equal to True, it will normalize the input to the activation function of all convolutional layers and all fully-connected hidden layers. It will also normalize the value of the derivative of the error with respect to the filter prior to updating the value of the kernels.
 
+
 * **shuffle** _(Type bool, default = True)_
 If True, the training dataset indices will be shuffled at each epoch, for random access.
+
 
 * **iterationDrop** _(Type float, default = 0)_
 Probability of a iteration to be skipped in each epoch. That means there will be (1-_iterationDrop_) times fewer iterations in each epoch. For example, if the batch size is 10 and there are 1000 training samples, with _iterationDrop_=0, 100 iterations will be performed per epoch, but with _iterationDrop_=0.4, (1-0.4) * 100 iterations = 60 iterations will be performed. Combined with data shuffling at each epoch, and a sufficient number of epochs, all training data will continue to be used during training, while reducing overall run time.
@@ -338,17 +358,21 @@ clf.importModel(mpath, mfilename) # The variables will be loaded from the file.
 
 ## Internal attributes:
 
-The following are internal attributes of the class, which do not need to be used by a user making conventional use of my network. However they can be used as well.
+The following are internal attributes of the class, which do not need to be used by a user making conventional use of my network. However, they can be used as well.
 
 * **convFilters**: _(Type list of ints)_ List of number of filters of each convolutional layer. The ith element will be the number of kernels in the ith convolutional layer.
 
+
 * **filtersValues**: _(Type list of Numpy arrays)_ Contains the arrays with the filters values of all the convolutional layers.
+
 
 * **convStride**: _(Type int or list of ints, default = 2)_
 If _convStride_ is an int, it is the stride that will be used in all convolutional layers. For example, if the value is 2, the stride will be 2 in all convolutional layers. If _convStride_ is a list, it contains the strides that will be used in each convolutional layer. The ith element will be the stride of the ith convolutional layer. For example, if the value of _convStride_ is the list [1,2,4], the first convolutional layer will have a stride of 1, the second a stride of 2, and the third a stride equal to 4. If _convStride_ is a list, it must be the same size as the list passed to the _convFilters_ parameter.
 
+
 * **convFilterSizes**: _(Type int or list of ints, default = 3)_
 If _convFilterSizes_ is an int, it is the size of kernels dimensions that will be used in all convolutional layers. For example, if the value is 5 and it is detected that the input images are in grayscale, the kernels size will be 5x5, but if three-dimensional kernels are required (color images as input), all kernels of the first layer will automatically be 5x5xN where N is the number of elements in the third dimension of the input images (3 if RGB, but can be any number) and all the kernels of the rest of the layers will be 5x5 since color is only in the first layer. If _convFilterSizes_ is a list, it will contain the size of kernels dimensions that will be used in each convolutional layer. The ith element will be the size of kernels dimensions of the ith convolutional layer. For example, if the value is the list [7,5,3] and it is detected that input images are in grayscale, automatically all kernels of the first convolutional layer will be 7x7. If input images are in RGB, all kernels of the first layer will be of shape 7x7x3, kernels of the second 5x5 (color is only in the first layer) and kernels of the third 3x3. If _convFilterSizes_ is a list, it must be the same size as the list passed to the _convFilters_ parameter.
+
 
 * **kernel_initializer** _(Type string)_
 Method that will be used to initialize the values of the filters of the convolutional layers. Allowed values: 
@@ -362,75 +386,103 @@ Method that will be used to initialize the values of the filters of the convolut
 
     Where n is the size of the input to that convolutional layer and m is the size of the output of that convolutional layer.
 
+
 * **convInputs**: _(Type list of Numpy arrays)_
 Contains the input values for each convolutional layer so that they can be used in backpropagation. Each time the _convLayersFeedForward_ method is called, the list is flushed and populated again.
+
 
 * **convOutputs** _(Type list of Numpy arrays)_
 In case the number of total epochs (_numEpochs_) is greater than the number of epochs in which the backpropagation will be performed in the convolutional layers (_convEpochs_), the output value of the last convolutional layer for each input data is stored in this variable once the epoch number equal to _convEpochs_ is reached, to avoid to recalculate all the convolutions in the remaining _numEpochs_-_convEpochs_ epochs, because the value of the filters will not change any more and therefore the output of said data will not change either.
 
+
 * **hiddenL**: _(Type list of ints)_ List of number of neurons of each hidden layers. The ith element will be the number of neurons in the ith hidden layer.
+        
         
 * **numEpochs**: _(Type int, default = 1)_ 
 Number of times that the neural network will use all training data to perform the training.
 
+
 * **convEpochs**: _(Type int, default = 10)_
 Number of epochs in which the backpropagation will also take place in the convolutional layers. This value must be less than or equal to _nEpochs_ for this to take effect, otherwise backpropagation will also be performed in the convolutional layers during all epochs. Backpropagation is performed always in all epochs in fully connected layers.
+
 
 * **learningRate**: _(Type float, default = 0.1)_
 Learning rate value that controls the size of the steps when updating the weights of the fully connected layers.
 
+
 * **learningRateConv** _(Type float, default = 0.001)_
 Learning rate value that controls the size of the steps when updating the values of the convolutional layer filters.
         
+        
 * **hiddenWeights**: _(Type List of Numpy arrays)_ The ith element of the list is an array with the weights of the ith layer.
+        
         
 * **debugMode**: _(Type int)_ Contains the value of the debug level (see constructor info).
         
+        
 * **rangeRandomWeight**: _(Type tuple of floats)_
 Range of values between which the weights will be randomly initialized. If None, Xavier initialization will be used if activation function is _sigmoid_ and He initialization will be used otherwise.
-                
+          
+          
 * **showLogs**: _(Type bool)_ Toggles the display of the network logs, which include information on weight modifications, errors, net outputs and much more.
+        
         
 * **softmax**: _(Type bool)_ If True, the network applies softmax before returning the prediction value.
         
+        
 * **n_layer0**: _(Type int)_ Contains the number of neurons in the input layer.
+
 
 * **activationFunction** _(Type string)_
 Activation function to be used in the fully connected layers of the neural network. Allowed values: 'sigmoid', 'relu', 'softplus', 'leakyrelu' and 'identity'.
 
+
 * **lastLayerNeurons**: _(Type int)_ Contains the number of neurons in the output layer.
+
 
 * **meanCostByEpoch**: _(Type list of Numpy arrays)_ It contains all the last layer neurons mean errors for each epoch. If the debug level is less than 1, the variable will be an empty list.
 
+
 * **debugWeights**: _(Type list of lists of Numpy arrays)_ It contains the value of all the weights after each epoch. If the debug level is less than 2, the variable will be an empty list.
+
 
 * **costs**: _(Type list of floats)_ List of all output layer neurons errors for each input value and for each epoch. If the debug level is less than 3, the variable will be an empty list.
 
+
 * **manualWeights**: _(Type list of lists of floats)_ If they have been specified, it contains the weights that the user wants to manually set. If it is empty, the weights have been randomly initialized. The value of this variable is only used once in network initialization.
+
 
 * **verbose** _(Type bool)_
 If True, when the _fit_ method is called, information about the number of training samples will be printed, and at the end of each epoch the finished epoch number and its loss will also be printed.
 
+
 * **use** _(Type string)_
 Indicates whether the neural network should perform classification or regression, to automatically make internal modifications that allow it to perform this task, such as changing the activation function of the output layer, for example. Allowed values: 'classification' and 'regression'.
+
 
 * **batch_size** _(Type int)_
 Batch size to be used.
 
+
 * **batch_gradient** _(Type string)_
 Use of the gradient calculated between the data of a batch. Allowed values: 'average' and 'sum'.
+
 
 * **batch_mult** _(Type int)_
 After each epoch, _batch_size_ will be multiplied by the value of _batch_mul_.
 
+
 * **dropout** _(Type float)_
 Probability of a neuron to be deactivated in each hidden layer.
+
 
 * **pre_norm** _(Type bool)_
 If it is equal to True, it will normalize the input to the activation function of all convolutional layers and all fully-connected hidden layers. It will also normalize the value of the derivative of the error with respect to the filter prior to updating the value of the kernels.
 
+
 * **shuffle** _(Type bool)_
 If True, the training dataset indices will be shuffled at each epoch, for random access.
+
 
 * **iterationDrop** _(Type float)_
 Probability of a iteration to be skipped in each epoch. That means there will be (1-_iterationDrop_) times fewer iterations in each epoch. For example, if the batch size is 10 and there are 1000 training samples, with _iterationDrop_=0, 100 iterations will be performed per epoch, but with _iterationDrop_=0.4, (1-0.4) * 100 iterations = 60 iterations will be performed. Combined with data shuffling at each epoch, and a sufficient number of epochs, all training data will continue to be used during training, while reducing overall run time.
@@ -438,7 +490,7 @@ Probability of a iteration to be skipped in each epoch. That means there will be
 
 ## Internal methods:
 
-The following are internal methods of the class, which do not need to be used by a user making conventional use of my network. However they can be used as well.
+The following are internal methods of the class, which do not need to be used by a user making conventional use of my network. However, they can be used as well.
 
 ### initializeWeight
 
