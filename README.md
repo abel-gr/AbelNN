@@ -6,6 +6,10 @@ You can consult all the information on how to use my library, whether you are an
 
 | Implementation               |    Class    |    Code    |  Examples  | Documentation |
 |------------------------------|-------------|:----------:|:----------:|:-------------:|
-| Multilayer perceptron        | MLP_Abel    | [Click here](/Code/MLP_Abel.py) | [Click here](/Examples/MLP_Abel%20with%20digits%20MNIST%20images.ipynb) | [Click here](/Documentation/MLP_Abel.md)   |
-| Convolutional neural network | ConvNetAbel | [Click here](/Code/ConvNetAbel.py) | [Click here](/Examples/ConvNetAbel%20with%20digits%20MNIST%20images.ipynb) | [Click here](/Documentation/ConvNetAbel.md)   |
+| Multilayer perceptron        | MLP_Abel    | [Click here](Code/MLP_Abel.py) | [Click here](Examples/MLP_Abel%20with%20digits%20MNIST%20images.ipynb) | [Click here](Documentation/MLP_Abel.md)   |
+| Convolutional neural network | ConvNetAbel | [Click here](Code/ConvNetAbel.py) | [Click here](Examples/ConvNetAbel%20with%20digits%20MNIST%20images.ipynb) | [Click here](Documentation/ConvNetAbel.md)   |
 |                              |             |            |            |               |
+
+<br>
+
+All algorithm classes are independent and you can directly import each file separately. However, you can also import the *AbelNN.py* file which imports everything.
