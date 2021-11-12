@@ -2,6 +2,17 @@
 
 Multi-Layer Perceptron classifier and regressor made by Abel Garcia.
 
+Example:
+
+```python
+from MLP_Abel import *
+
+clf = MLP_Abel(hidden=[2,3], activationFunction='sigmoid', learningRate=0.001)
+clf.fit(X_train, y_train)
+
+probabs = clf.predict_proba(X_test)
+```
+
 ## Constructor parameters:
 
 * **hidden**: _(Type list of ints, default = [1])_
@@ -103,14 +114,6 @@ If True, the training dataset indices will be shuffled at each epoch, for random
 * **iterationDrop** _(Type float, default = 0)_
 Probability of a iteration to be skipped in each epoch. That means there will be (1-_iterationDrop_) times fewer iterations in each epoch. For example, if the batch size is 10 and there are 1000 training samples, with _iterationDrop_=0, 100 iterations will be performed per epoch, but with _iterationDrop_=0.4, (1-0.4) * 100 iterations = 60 iterations will be performed. Combined with data shuffling at each epoch, and a sufficient number of epochs, all training data will continue to be used during training, while reducing overall run time.
 
-Example:
-
-```python
-clf = MLP_Abel(hidden=[2,3], softmax=True)
-clf.fit(X_train, y_train)
-
-probabs = clf.predict_proba(X_test)
-```
 
 ## Methods:
 
