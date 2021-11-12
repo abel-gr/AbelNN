@@ -2,6 +2,19 @@
 
 Convolutional Neural Network made by Abel Garcia.
 
+Example:
+
+```python
+from ConvNetAbel import *
+
+clf = ConvNetAbel(convFilters=[32, 64, 64], convStride=2, convFilterSizes=5,
+                  hidden=[2,3], activationFunction='relu', learningRate=0.5, nEpochs=10)
+
+clf.fit(X_train, y_train)
+
+probabs = clf.predict_proba(X_test)
+```
+
 ## Constructor parameters:
 
 * **convFilters**: _(Type list of ints, default = [32, 64, 128])_
@@ -87,7 +100,8 @@ clf = ConvNetAbel(hidden=hiddenLayers, manualWeights=manualWeights)
 ```
     
 
-* **debugLevel**: _(Type int, default = 1)_ Depending on the level of debugging, certain learning related values are stored in class instance variables to be able to later show plots with information about the learning. Each level allows all the actions of lower levels than itself. Higher levels correspond to bigger numbers.
+* **debugLevel**: _(Type int, default = 1)_
+Depending on the level of debugging, certain learning related values are stored in class instance variables to be able to later show plots with information about the learning. Each level allows all the actions of lower levels than itself. Higher levels correspond to bigger numbers.
 
 | debugLevel    | Debug action performed |
 | :-----------: |:----------------------:| 
@@ -148,17 +162,6 @@ If True, the training dataset indices will be shuffled at each epoch, for random
 * **iterationDrop** _(Type float, default = 0)_
 Probability of a iteration to be skipped in each epoch. That means there will be (1-_iterationDrop_) times fewer iterations in each epoch. For example, if the batch size is 10 and there are 1000 training samples, with _iterationDrop_=0, 100 iterations will be performed per epoch, but with _iterationDrop_=0.4, (1-0.4) * 100 iterations = 60 iterations will be performed. Combined with data shuffling at each epoch, and a sufficient number of epochs, all training data will continue to be used during training, while reducing overall run time.
 
-Example:
-
-```python
-
-clf = ConvNetAbel(convFilters=[32, 64, 64], convStride=2, convFilterSizes=5,
-                  hidden=[2,3], softmax=True, learningRate=0.5, nEpochs=10)
-
-clf.fit(X_train, y_train)
-
-probabs = clf.predict_proba(X_test)
-```
 
 ## Methods:
 
