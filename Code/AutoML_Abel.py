@@ -4,6 +4,8 @@ import math
 import copy
 import random
 
+version = 1.1.5
+
 
 class ModelNode:
     
@@ -24,9 +26,9 @@ class ModelNode:
 
 class AutoML_Abel:
     
-    def __init__(self, model, hyp_space=None, train_subset_elements=20, test_subset_elements=20, maxChildrenPerNode=3,
-                 maxTreeDepth=3, prunedRatio=0.2, pruningsNumber=10, pruningDepthStep=5, verbose=False,
-                 debugMode=False, nEpochs=10):
+    def __init__(self, model, hyp_space=None, train_subset_elements=35, test_subset_elements=50, maxChildrenPerNode=3,
+                 maxTreeDepth=6, prunedRatio=0.3, pruningsNumber=4, pruningDepthStep=2, verbose=False,
+                 debugMode=False, nEpochs=15):
         
         self.modelBase = model
         
