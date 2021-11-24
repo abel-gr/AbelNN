@@ -49,11 +49,11 @@ hyp_space = {'learningRate': ['range', [1e-5, 1.5]], 'batch_size': ['rangeint', 
 ```
 
 
-* **train_subset_elements**: _(Type int, default = 20)_
+* **train_subset_elements**: _(Type int, default = 35)_
 Number of elements in the train subset to be used to train each model. Random shuffle is always performed before each subsampling. If the number is greater than the number of items, all items will be used.
 
 
-* **test_subset_elements**: _(Type int, default = 20)_
+* **test_subset_elements**: _(Type int, default = 50)_
 Number of elements in the test subset to be used to test each model. Random shuffle is always performed before each subsampling. If the number is greater than the number of items, all items will be used.
 
 
@@ -61,31 +61,31 @@ Number of elements in the test subset to be used to test each model. Random shuf
 Maximum number of children that each node (model) of the tree can have.
 
 
-* **maxTreeDepth**: _(Type int, default = 3)_
+* **maxTreeDepth**: _(Type int, default = 6)_
 Maximum depth of the tree, starting to count from zero, that is, also counting the root.
 
 
-* **prunedRatio**: _(Type float, default = 0.2)_
+* **prunedRatio**: _(Type float, default = 0.3)_
 Proportion of nodes that are pruned at each depth level of the tree. It must be a float between 0 and 1.
 
 
-* **pruningsNumber**: _(Type int, default = 10)_
+* **pruningsNumber**: _(Type int, default = 4)_
 Number of prunings that will be performed, that is, number of iterations that the algorithm will execute.
 
 
-* **pruningDepthStep**: _(Type int, default = 5)_
+* **pruningDepthStep**: _(Type int, default = 2)_
 Number of iterations until a new depth level can be pruned. For instance, if it is equal to 100 and _pruningsNumber_ is 300, during the first 100 iterations only leaves can be removed, for the next 100 iterations, leaves and nodes at level (n-1) are removable, and during the last 100 iterations depths (n-2) and higher can be pruned.
 
 
 * **verbose**: _(Type bool, default = False)_
-If its value is True, information on the progress of the algorithm's execution will be displayed.
+If its value is True, information on the progress of the algorithm's execution will be printed.
 
 
 * **debugMode**: _(Type bool, default = False)_
-If its value is True, the best accuracy found will be stored in a list in each iteration.
+If its value is True, the best accuracy found so far will be stored in a list in each iteration.
 
 
-* **nEpochs**: _(Type int, default = 10)_
+* **nEpochs**: _(Type int, default = 15)_
 Number of epochs that the final model will have.
 
 
