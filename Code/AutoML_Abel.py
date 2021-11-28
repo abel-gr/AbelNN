@@ -4,7 +4,7 @@ import math
 import copy
 import random
 
-version = 1.1.5
+version = '1.1.5'
 
 
 class ModelNode:
