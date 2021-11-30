@@ -1,3 +1,6 @@
+# Copyright Abel Garcia. All Rights Reserved.
+# https://github.com/abel-gr/AbelNN
+
 import numpy as np
 import copy as copy
 import random
@@ -7,13 +10,16 @@ import matplotlib.cm as cm
 from pylab import text
 import math
 
+version = 1.2
+
+
 class MLP_Abel:
     
     def __init__(self, hidden = [1], nEpochs = 1, learningRate=0.1, manualWeights=[], 
                  debugLevel=1, rangeRandomWeight=None, showLogs=False, softmax=False,
                  activationFunction='sigmoid', verbose=False, use='classification',
                  batch_size=1, batch_gradient='average', batch_mult=1, dropout=0, pre_norm=False,
-                 shuffle=True, iterationDrop=0, fM=None):
+                 shuffle=True, iterationDrop=0):
         
         self.hiddenL = copy.deepcopy(hidden)
         self.hiddenL2 = copy.deepcopy(hidden)
@@ -64,7 +70,6 @@ class MLP_Abel:
         
         self.XavierInitialization = '1'
         
-        self.fM = fM
         
     def draw(self, showWeights=False, textSize=9, customRadius=0):
         plt.figure(figsize=(10,8))
@@ -483,6 +488,7 @@ class MLP_Abel:
                         if self.debugMode > 0:
                             meanCostByEpochE = meanCostByEpochE + (abs(coste) if self.batch_size == 1 else np.mean(np.absolute(coste), axis=0))
                             
+                            """
                             if self.fM is not None:
                                 
                                 mclass = np.argmax(meanCostByEpochE)
@@ -499,7 +505,8 @@ class MLP_Abel:
 
                                     coste = coste * drop
 
-                                    classMaxError[1] = 0 
+                                    classMaxError[1] = 0
+                            """
                                                             
                             
                         if self.debugMode > 2:
