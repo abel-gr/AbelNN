@@ -1,8 +1,8 @@
-
+# Copyright Abel Garcia. All Rights Reserved.
+# https://github.com/abel-gr/AbelNN
+#
 # Main file of the Abel Neural Networks module
-# Copyright Abel Garcia
-
-
+#
 # You can use each of the .py files separately or you can import
 # this main file if you want to load all files. This .py will
 # also load my AutoML module.
