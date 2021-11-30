@@ -1,10 +1,13 @@
+# Copyright Abel Garcia. All Rights Reserved.
+# https://github.com/abel-gr/AbelNN
+
 import numpy as np
 import math
 
 import copy
 import random
 
-version = '1.1.5'
+version = 1.2
 
 
 class ModelNode:
