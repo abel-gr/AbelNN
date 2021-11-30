@@ -1,3 +1,6 @@
+# Copyright Abel Garcia. All Rights Reserved.
+# https://github.com/abel-gr/AbelNN
+
 import numpy as np
 import copy as copy
 import random
@@ -6,6 +9,9 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 from pylab import text
 import math
+
+version = 1.2
+
 
 class ConvNetAbel:
     
