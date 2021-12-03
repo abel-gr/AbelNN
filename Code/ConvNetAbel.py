@@ -10,10 +10,10 @@ import matplotlib.cm as cm
 from pylab import text
 import math
 
-version = 1.2
-
 
 class ConvNetAbel:
+
+    version = 1.2
     
     def __init__(self, hidden = [1], nEpochs = 1, learningRate=0.1, manualWeights=[],
                  debugLevel=1, rangeRandomWeight=None, showLogs=False, softmax=False,
@@ -70,6 +70,8 @@ class ConvNetAbel:
         self.iterationDrop = iterationDrop
         
         self.XavierInitialization = '1'
+
+        self.lastLayerNeurons = -1
         
         
         # ConvNet:
@@ -795,13 +797,36 @@ class ConvNetAbel:
         self.showLogs = bool(mConfig[1])
         self.lastLayerNeurons = int(mConfig[2])
         self.numEpochs = int(mConfig[3])
-        self.learningRate = mConfig[4]
+        self.learningRate = float(mConfig[4])
         self.debugMode = int(mConfig[5])
         self.softmax = bool(mConfig[6])
-            
-        self.hiddenL2 = np.load(path + filename + '_hiddenLayers2.npy', allow_pickle=True).tolist()
-        self.hiddenL = np.load(path + filename + '_hiddenLayers.npy', allow_pickle=True).tolist()
-            
+        self.activationFunction = str(mConfig[7])
+        self.verbose = bool(mConfig[8])
+        self.use = str(mConfig[9])
+        self.batch_size = int(mConfig[10])
+        self.batch_gradient = str(mConfig[11])
+        self.batch_mult = int(mConfig[12])
+        self.dropout = float(mConfig[13])
+        self.pre_norm = bool(mConfig[14])
+        self.shuffle = bool(mConfig[15])
+        self.iterationDrop = float(mConfig[16])
+        self.version_importedModel = mConfig[17]
+        self.hiddenL2 = mConfig[18]
+        self.hiddenL = mConfig[19]
+
+
+        convConfig = np.load(path + filename + '_convConfig.npy', allow_pickle=True)
+
+        self.convFilters = convConfig[0]
+        self.convStride = convConfig[1]
+        self.convFilterSizes = convConfig[2]
+        self.kernel_initializer = str(convConfig[3])
+        self.convEpochs = int(convConfig[4])
+        self.learningRateConv = float(convConfig[5])
+
+        self.filtersValues = np.load(path + filename + '_filtersValues.npy', allow_pickle=True)
+
+                        
         if self.debugMode > 0:
             
             self.meanCostByEpoch = np.load(path + filename + '_meanCostByEpoch.npy', allow_pickle=True).tolist()
@@ -823,12 +848,40 @@ class ConvNetAbel:
         mConfig.append(self.learningRate)
         mConfig.append(self.debugMode)
         mConfig.append(self.softmax)
-        mConfig = np.asarray(mConfig, dtype=np.float32)
+        mConfig.append(self.activationFunction)
+        mConfig.append(self.verbose)
+        mConfig.append(self.use)
+        mConfig.append(self.batch_size)
+        mConfig.append(self.batch_gradient)
+        mConfig.append(self.batch_mult)
+        mConfig.append(self.dropout)
+        mConfig.append(self.pre_norm)
+        mConfig.append(self.shuffle)
+        mConfig.append(self.iterationDrop)
+        mConfig.append(self.version)
+        mConfig.append(self.hiddenL2)
+        mConfig.append(self.hiddenL)
+
+        mConfig = np.asarray(mConfig, dtype=object)
         
         np.save(path + filename + '_config.npy', mConfig)
+
+
+        convConfig = []
+        convConfig.append(self.convFilters)
+        convConfig.append(self.convStride)
+        convConfig.append(self.convFilterSizes)
+        convConfig.append(self.kernel_initializer)
+        convConfig.append(self.convEpochs)
+        convConfig.append(self.learningRateConv)
+
+        convConfig = np.asarray(convConfig, dtype=object)
+        
+        np.save(path + filename + '_convConfig.npy', convConfig)
+
+        np.save(path + filename + '_filtersValues.npy', np.asarray(self.filtersValues, dtype=np.float32))
+
             
-        np.save(path + filename + '_hiddenLayers2.npy', self.hiddenL2)
-        np.save(path + filename + '_hiddenLayers.npy', self.hiddenL)
             
         if self.debugMode > 0:
             
@@ -837,6 +890,7 @@ class ConvNetAbel:
         if self.debugMode > 1:
 
             np.save(path + filename + '_debugWeights.npy', np.asarray(self.debugWeights, dtype=object))
+
         
     def log(self, *m):
         if self.showLogs:
