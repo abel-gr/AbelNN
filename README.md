@@ -21,6 +21,10 @@ The library code, to be able to import it into your project, is found in the [Co
 * [Classification and regression](#Classification-and-regression)
     * [Plot training error](#Plot-training-error)
     * [Drawing fullyconnected layers](#Drawing-fullyconnected-layers)
+* [Import and export your models](#Import-and-export-your-models)
+    * [Export a model](#Export-a-model)
+    * [Import a model](#Import-a-model)
+* [Library dependencies](#Library-dependencies)
 
 
 # How to use my module
@@ -231,5 +235,103 @@ mlp.draw(showWeights=True, textSize=11, customRadius=0.02)
 ![](img/draw1.png)
 
 In the [examples](Examples/) folder you have several Jupyter Notebooks in which real problems are solved with my library, and complete examples with the different functions and procedures called to train and predict using my neural networks.
+
+
+# Import and export your models
+
+All the classes in my library that implement predefined neural networks allow you to import and export your models very easily and quickly.
+
+## Export a model
+
+You can export the network and its variables to a disk file so that it persists after execution and can be used again, even without the need to re-train. It performs the export using the Numpy _load_ and _save_ procedures, and generates various _npy_ files with the content of the network variables. The _filename_ parameter is used for all files during that export as the name prefix.
+
+The export can be done by calling the _exportModel_ procedure of a neural network class:
+
+> _exportModel(self, path='', filename='model')_
+>
+>
+>   - **Parameters**:
+>        
+>        - **path**: _(Type string, default = '')_ Path where the model will be exported.
+>
+>        - **filename**: _(Type string, default = 'model')_ Prefix of the files to be generated.
+>
+>   - **Returns**: None
+
+Example of exporting a multilayer perceptron:
+
+```python
+import AbelNN
+
+mpath = 'exportedModels/'
+mfilename = 'my_MLP_model'
+
+clf = AbelNN.MLP(hidden=[2,3])
+clf.exportModel(mpath, mfilename)
+```
+
+Example of exporting a convolutional neural network:
+
+```python
+import AbelNN
+
+mpath = 'exportedModels/'
+mfilename = 'my_ConvNet_Model'
+
+clf = AbelNN.ConvNet(convFilters=[8, 16], hidden=[2,3])
+clf.exportModel(mpath, mfilename)
+```
+
+## Import a model
+
+You can import a model of an AbelNN neural network class from a disk file, which will keep all the variables of the instance that was exported.
+
+The files that are used for the import are the _npy_ files that you previously exported, or that someone else shared with you, but that were generated using the _exportModel_ procedure.
+
+The import can be done by calling the _importModel_ procedure of a neural network class. The instance that makes that call will have the same value in all variables as the instance that was exported to those files.
+
+> _importModel(self, path='', filename='model')_
+>
+>
+>   - **Parameters**:
+>        
+>        - **path**: _(Type string, default = '')_ Path where the exported model files are located.
+>
+>        - **filename**: _(Type string, default = 'model')_ Prefix of the exported files.
+>
+>   - **Returns**: None
+
+Example of importing a multilayer perceptron:
+
+```python
+import AbelNN
+
+mpath = 'exportedModels/'
+mfilename = 'my_MLP_model'
+
+clf = AbelNN.MLP() # Instance a default MLP
+clf.importModel(mpath, mfilename) # The variables will be loaded from the file.
+```
+
+Example of importing a convolutional neural network:
+
+```python
+import AbelNN
+
+mpath = 'exportedModels/'
+mfilename = 'my_ConvNet_Model'
+
+clf = AbelNN.ConvNet() # Instance a default ConvNet
+clf.importModel(mpath, mfilename) # The variables will be loaded from the file.
+```
+
+# Library dependencies
+
+* copy
+* math
+* matplotlib
+* numpy
+* pylab (of matplotlib)
+* random
 
 
