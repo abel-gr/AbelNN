@@ -8,6 +8,8 @@ In this file you will find general information about my module. If you need more
 
 The library code, to be able to import it into your project, is found in the [Code](Code/) folder.
 
+You can also read my paper in the [Paper.pdf](Paper.pdf) file.
+
 
 # Table of Contents
 
@@ -67,7 +69,7 @@ My AutoML is able to find really good models very quickly, as you can see [in th
 
 ## For experienced users
 
-If you have never tuned a deep learning model but want to get started, do not worry, I have designed my module to be extremely easy to use even for people who have never used deep learning. If you do not want to define complex architectures, you can use my predefined classes. They are so easy to use that with a single line of code you can completely customize your model.
+If you are a bit more experienced, you can also specify the value of all neural network hyperparameters using my library. And if you have never tuned a deep learning model but want to get started, do not worry, I have designed my module to be extremely easy to use even by people who have never used deep learning. In either case, if what you want is to modify the networks without complicating yourself by defining complex architectures, you can use my predefined classes. They are so easy to use that with a single line of code you can completely customize your model.
 
 **Example:**
 *This example instantiates a convolutional neural network with 2 convolutional layers of 64 filters each, the first with stride equal to 2 and the second equal to 1, and filters of size 5 in all dimensions of the data in the first layer and 3 in the second layer. After the convolutional layers it has 2 fullyconnected hidden layers, one with 30 neurons and the other with 20. The learning rate is 0.1.*
