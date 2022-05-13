@@ -76,7 +76,7 @@ class ConvNetAbel:
         
         # ConvNet:
         self.convFilters = convFilters
-        self.filtersValues = ["N"] * len(convFilters)
+        self.filtersValues = [None] * len(convFilters)
         self.convStride = convStride
         self.convFilterSizes = convFilterSizes
         self.learningRateConv = learningRateConv
@@ -324,7 +324,7 @@ class ConvNetAbel:
             
             self.convInputs.append(im)
             
-            if (self.filtersValues[i] is "N"):
+            if (self.filtersValues[i] is None):
                 
                 if (type(self.convFilterSizes) == list):
                     ks = self.convFilterSizes[i]
@@ -998,7 +998,7 @@ class ConvNetAbel:
         
         self.hiddenL = copy.deepcopy(self.hiddenL2)
                 
-        hiddenW = ["N"] * (len(self.hiddenL) + 1)
+        hiddenW = [None] * (len(self.hiddenL) + 1)
         
         self.lastLayerNeurons = y.shape[1]
                 
@@ -1093,7 +1093,7 @@ class ConvNetAbel:
                 for i, hiddenLayer in enumerate(self.hiddenL):
                     entries = hiddenLayer * lastN
 
-                    if hiddenW[i] is "N":
+                    if hiddenW[i] is None:
                         hiddenW[i] = self.initializeWeight(hiddenLayer, i, lastN) # Initialize weights
 
                     valuesForPerc = int(entries / hiddenLayer)
@@ -1139,7 +1139,7 @@ class ConvNetAbel:
                     
                     lastN = hiddenLayer
                     
-                coste_anterior = "N"
+                coste_anterior = None
 
                 i = len(self.hiddenL) - 1
                 
@@ -1161,7 +1161,7 @@ class ConvNetAbel:
                     self.log('Neurons in this layer: ', hiddenLayer)
                     #print('i: ', i, '\n')
 
-                    if coste_anterior is "N":
+                    if coste_anterior is None:
                         if(self.softmax):
                             derivf_coste = self.functionDerivative(v_layer, self.activationFunction)
                         else:                            
