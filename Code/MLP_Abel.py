@@ -346,7 +346,7 @@ class MLP_Abel:
         
         self.hiddenL = copy.deepcopy(self.hiddenL2)
                 
-        hiddenW = ["N"] * (len(self.hiddenL) + 1)
+        hiddenW = [None] * (len(self.hiddenL) + 1)
         
         self.lastLayerNeurons = y.shape[1]
         
@@ -406,7 +406,7 @@ class MLP_Abel:
                 for i, hiddenLayer in enumerate(self.hiddenL):
                     entries = hiddenLayer * lastN
 
-                    if hiddenW[i] is "N":
+                    if hiddenW[i] is None:
                         hiddenW[i] = self.initializeWeight(hiddenLayer, i, lastN) # Initialize weights
 
                     valuesForPerc = int(entries / hiddenLayer)
@@ -464,7 +464,7 @@ class MLP_Abel:
                     
                     lastN = hiddenLayer
                     
-                coste_anterior = "N"
+                coste_anterior = None
 
                 i = len(self.hiddenL) - 1
                 
@@ -483,7 +483,7 @@ class MLP_Abel:
                     self.log('Neurons in this layer: ', hiddenLayer)
                     #print('i: ', i, '\n')
 
-                    if coste_anterior is "N":
+                    if coste_anterior is None:
                         if(self.softmax):
                             derivf_coste = self.functionDerivative(v_layer, self.activationFunction)
                         else:
