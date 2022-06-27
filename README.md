@@ -194,7 +194,7 @@ clf.plot_mean_error_last_layer(labels, byClass=False)
 
 ## Drawing fullyconnected layers
 
-With the *draw* procedure you can show a matplotlib plot with the MLP layers or the fullyconnected layers of a ConvNet:
+With the *draw* procedure, you can show a *matplotlib* plot with all the layers of your multilayer perceptron or the fullyconnected layers of your ConvNet:
 
 ```python
 import AbelNN
@@ -215,13 +215,13 @@ mlp.draw()
 
 ![](img/draw0.png)
 
-You can also indicate if you want to show the value of the weights, as well as change the size of the text and the radius of the neurons:
+You can also indicate if you want to show the value of the weights, as well as hide the legend or change the size of the text and the radius of the neurons:
 
 ```python
 import AbelNN
 import numpy as np
 
-mlp = AbelNN.MLP(hidden=[3])
+mlp = AbelNN.MLP(hidden=[2])
 
 # Random data as an example
 x_train = np.random.uniform(low=0.0, high=1.0, size=(100, 3))
@@ -229,12 +229,33 @@ y_train = np.random.uniform(low=0.0, high=1.0, size=(100, 2))
 
 mlp.fit(x_train, y_train)
 
-mlp.draw(showWeights=True, textSize=11, customRadius=0.02)
+mlp.draw(showWeights=True, textSize=11, customRadius=0.02, showLegend=False)
 ```
 
 **Output:**
 
 ![](img/draw1.png)
+
+And of course you can also plot the layers of the fully-connected part of your convolutional neural network, with or without the legend:
+
+```python
+import AbelNN
+import numpy as np
+
+cnn = AbelNN.ConvNet(hidden=[2,3], convFilters=[16, 16], convStride=[3, 3])
+
+# Random data as an example
+x_train = np.random.uniform(low=0.0, high=1.0, size=(100, 10, 10)) # 100 10x10 random images
+y_train = np.random.uniform(low=0.0, high=1.0, size=(100, 3))
+
+cnn.fit(x_train, y_train)
+
+cnn.draw()
+```
+
+**Output:**
+
+![](img/draw2.png)
 
 In the [examples](Examples/) folder you have several Jupyter Notebooks in which real problems are solved with my library, and complete examples with the different functions and procedures called to train and predict using my neural networks.
 
@@ -333,7 +354,6 @@ clf.importModel(mpath, mfilename) # The variables will be loaded from the file.
 * math
 * matplotlib
 * numpy
-* pylab (of matplotlib)
 * random
 
 
