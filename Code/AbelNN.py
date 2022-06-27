@@ -7,7 +7,7 @@
 # this main file if you want to load all files. This .py will
 # also load my AutoML module.
 
-version = 1.2
+__version__ = '1.2.1'
 
 
 from MLP_Abel import MLP_Abel as MLP
