@@ -286,7 +286,7 @@ ConvNetAbel debug mode must be level 2 or higher to be able to use this method, 
 
 Draws a figure with the neurons and connections of the fully connected part of the neural network.
 
-> _draw(self, showWeights=False, textSize=9, customRadius=0)_
+> _draw(self, showWeights=False, textSize=9, customRadius=0, showLegend=True)_
 >
 >   - **Parameters**:
 >        
@@ -295,7 +295,8 @@ Draws a figure with the neurons and connections of the fully connected part of t
 >       - **textSize**: _(Type int, default = 9)_ The size of the text to be displayed of the weights of the network.
 >
 >       - **customRadius**: _(Type int, default = 0)_ If it is 0 or negative, the radius of the neuron drawings (drawn as circles) is automatically calculated from the total number of neurons in order to adapt the size of the drawn neurons to any size. But if you want you can indicate another positive number and that will be the radius used.
->        
+>
+>       - **showLegend**: _(Type bool, default = True)_ If True, shows a legend with the name of each layer (First FC layer, Hidden FC layers and Output Layer).
 >
 >   - **Returns**: None
 
