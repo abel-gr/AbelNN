@@ -7,13 +7,15 @@ import random
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
-from pylab import text
 import math
 
 
 class MLP_Abel:
+    """
+    Multi-Layer Perceptron classifier and regressor made by Abel Garcia.
+    """
 
-    version = 1.2
+    __version__ = '1.2.1'
     
     def __init__(self, hidden = [1], nEpochs = 1, learningRate=0.1, manualWeights=[], 
                  debugLevel=1, rangeRandomWeight=None, showLogs=False, softmax=False,
@@ -73,12 +75,12 @@ class MLP_Abel:
         self.lastLayerNeurons = -1
         
         
-    def draw(self, showWeights=False, textSize=9, customRadius=0):
-        plt.figure(figsize=(10,8))
+    def draw(self, showWeights=False, textSize=9, customRadius=0, showLegend=True):
+        fig = plt.figure(figsize=(10,8))
 
-        fig = plt.gcf()
-        ax = fig.gca()
-
+        ax = fig.subplots()
+        
+        ax.set_title("Layers and neurons of the multilayer perceptron")
         ax.set_xlim(xmin=0, xmax=1)
         ax.set_ylim(ymin=0, ymax=1)
 
@@ -102,8 +104,11 @@ class MLP_Abel:
         lista_lineas_xy = []
         
         lasth = self.n_layer0
+        
+        num_FC_layers = len(self.hiddenL) + 1
 
-        for capa,h in enumerate([self.n_layer0] + self.hiddenL):
+        # For each layer
+        for capa, h in enumerate([self.n_layer0] + self.hiddenL):
             space_per_neuron = ydim / h
             y0 = ymin
             y1 = ymin + space_per_neuron
@@ -111,55 +116,74 @@ class MLP_Abel:
             lista_lineas_xy_pre = []
             ne = (lasth * h) - 1
             neY = h - 1
+            
+            if showLegend:
+                if capa == 0:
+                    plot_label = "Input layer"
+                    neuron_color = 'r'
+                elif capa + 1 == num_FC_layers:
+                    plot_label = "Output layer"
+                    neuron_color = 'b'
+                else:
+                    plot_label = "Hidden layer"
+                    neuron_color = 'g'
+
+                    if capa > 1:
+                        plot_label = "_" + plot_label # Avoid displaying the same label in the legend for each hidden layer
+            else:
+                plot_label = ""
+                neuron_color = 'r'
+                    
+            # For each neuron in this layer
             for j in range(0, h):
-                ax.add_patch(plt.Circle(((medio_intervalo + x0), (medio_intervalo_n + y0)), radio, color='r'))
+                plot_label = plot_label if j == 0 else ("_" + plot_label) # Avoid displaying the same label in the legend for each neuron in that layer
+                
+                ax.add_patch(plt.Circle(((medio_intervalo + x0), (medio_intervalo_n + y0)), radio, color=neuron_color, label=plot_label, zorder=1))
                 
                 neX = lasth - 1
 
+                # For each input to this neuron
                 for xy in lista_lineas_xy:
-                    if True: #j == 2:
-                        plt.plot([xy[0],(medio_intervalo + x0)],[xy[1], (medio_intervalo_n + y0)])
-                        #print(capa, ne, self.hiddenWeights[capa-1][ne])
+                    ax.plot([xy[0],(medio_intervalo + x0)],[xy[1], (medio_intervalo_n + y0)], zorder=0)
 
-                        my = ((medio_intervalo_n + y0) - xy[1])
-                        mx = ((medio_intervalo + x0) - xy[0])
-                        pendiente = my / mx
-                        ordenada_origen = xy[1] - pendiente * xy[0]
-                        margen_ord = 0.015
-                        if pendiente < 0:
-                            margen_ord = -0.045 # para compensar la rotacion del texto                        
-                        ordenada_origen = ordenada_origen + margen_ord # para evitar que el texto salga encima de la linea no sobre ella
+                    my = ((medio_intervalo_n + y0) - xy[1])
+                    mx = ((medio_intervalo + x0) - xy[0])
+                    pendiente = my / mx
+                    ordenada_origen = xy[1] - pendiente * xy[0]
+                    margen_ord = 0.015
+                    if pendiente < 0:
+                        margen_ord = -0.045 # compensate text rotation
+                    ordenada_origen = ordenada_origen + margen_ord # add the text above the line
                         
-                        # aleatorio entre las x del segmento de la recta (menos un margen para que no salga demasiado cerca de la neurona)
-                        mx2 = random.uniform(xy[0] + 0.04, (medio_intervalo + x0) - 0.04)
-                        my2 = pendiente*mx2 + ordenada_origen
+                    # random between the x's of the line segment (minus a margin so it does not appear too close to the neuron)
+                    mx2 = random.uniform(xy[0] + 0.04, (medio_intervalo + x0) - 0.04)
+                    my2 = pendiente*mx2 + ordenada_origen
 
-                        alfa = math.degrees(math.atan(pendiente))
+                    alfa = math.degrees(math.atan(pendiente))
                         
-                        if showWeights:
-                            #print(h, capa-1, neX, neY)
-                            text(mx2, my2, round(self.hiddenWeights[capa-1][neX][neY],3), rotation = alfa, fontsize = textSize)
+                    if showWeights:
+                        ax.text(mx2, my2, round(self.hiddenWeights[capa-1][neX][neY], 3), rotation=alfa, fontsize=textSize, zorder=2)
                             
                     ne = ne - 1
-                    neX = neX - 1
+                    neX = neX - 1 # Index of the neuron of the previous layer
 
                 lista_lineas_xy_pre.append([(medio_intervalo + x0), (medio_intervalo_n + y0)])
                 
-                neY = neY - 1
+                neY = neY - 1 # Index of the neuron of the current layer
 
                 y0 = y0 + space_per_neuron
                 y1 = y1 + space_per_neuron
                 
-                lasth = h
-                #print('\n')
+            lasth = h
 
             x0 = x0 + space_per_layer
             x1 = x1 + space_per_layer
 
-            #print('-------------\n')
-
             lista_lineas_xy = lista_lineas_xy_pre
 
+        if showLegend:
+            plt.legend(loc='best')
+            
         plt.show()
         
     def importModel(self, path='', filename='MLP_Abel_model'):
